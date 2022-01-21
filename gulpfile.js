@@ -2,11 +2,14 @@ const { dest, src, series, watch, parallel } = require("gulp");
 const ts = require("gulp-typescript");
 const tsProject = ts.createProject("tsconfig.json");
 const sourcemaps = require("gulp-sourcemaps");
+const mocha = require("gulp-mocha");
 
 // tsファイルを指定する。
 const srcFiles = "src/**/*.ts";
 // 出力先を指定する。
 const destDir = "dist";
+// テストファイルを指定する。
+const testFiles = "test/**/*.ts";
 
 // ビルドタスク
 const buildTask = (done) => {
@@ -23,10 +26,29 @@ const buildTask = (done) => {
 
 // ウォッチタスク
 const watchTask = () => {
-    watch(srcFiles, series(buildTask));
+    watch(srcFiles, series(buildTask, testTask));
+    watch(testFiles, series(testTask));
+}
+
+// テストタスク
+const testTask = (done) => {
+    src(testFiles)
+        .pipe(mocha({
+            require: ["ts-node/register"],
+            reporter: "list",
+            exit: true
+        }))
+        .on("error", (err) => {
+            console.error(err);
+        })
+    done();
 }
 
 // npx gulp buildでビルド
 exports.build = series(buildTask);
-// npx gulpでソースの変更を監視してビルド
-exports.default = series(watchTask);
+// テストを実行
+exports.test = series(testTask);
+// npx gulpでソースの変更を監視してビルドとテスト
+exports.watch = series(watchTask);
+// デフォルトはビルドとテスト
+exports.default = series(buildTask, testTask);
