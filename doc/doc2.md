@@ -146,4 +146,23 @@ exports.watch = series(watchTask);
 exports.default = series(buildTask, testTask);
 ~~~
 
-[github](https://github.com/miyamoto999/helloworld_ts)にコードを投稿しておいた。(エラーになるのをあけるのもなんだんでエラーにならないようにしてある(^^;))
+[github](https://github.com/miyamoto999/helloworld_ts/tree/V2.2)にコードを投稿しておいた。(エラーになるのをあけるのもなんだんでエラーにならないようにしてある(^^;))
+
+(追記)
+
+tsconfig.jsonでmoduleにcommonjs以外を指定していると"npm run test"を実行するとエラーになることが別のプロジェクトでわかった。ts-nodeではmoduleがcommonjsでないといけないようなので、moduleをcommonjsにするか、ts-nodeの場合はcommonjsを使うような設定をtsconfig.jsonに追加する。
+
+~~~json
+{
+  "compilerOptions": {
+    ...(省略)
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs" 
+    }
+  }
+}
+~~~
+
+[github](https://github.com/miyamoto999/helloworld_ts/tree/V2.3)にコードを投稿しておいた。

@@ -154,4 +154,4 @@ main.tsにブレークポイントを設定して、デバッグの開始を押�
 
 ![](images/debugstart.png)
 
-[github](https://github.com/miyamoto999/helloworld_ts)にコードを投稿しておいた。
+[github](https://github.com/miyamoto999/helloworld_ts/tree/V1)にコードを投稿しておいた。
